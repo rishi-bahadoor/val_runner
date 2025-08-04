@@ -1,7 +1,5 @@
 use std::process::Command;
 
-// test
-
 const PATH_TO_CCC_EXE: &str = r"C:\Users\rishi\Downloads\validation_runner\runner";
 const PATH_TO_TOML: &str = r"C:\Users\rishi\Downloads\validation_runner\runner\ultra_config.toml";
 
