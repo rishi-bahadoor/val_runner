@@ -14,4 +14,4 @@ pub use tests::*;
 //=============================================================================
 mod configure;
 
-pub use configure::configure_default;
+pub use configure::*;

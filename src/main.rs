@@ -1,5 +1,4 @@
-use runner::configure_default;
-use runner::list_sensors;
+use runner::*;
 use std::env;
 
 fn cli() {
@@ -8,21 +7,37 @@ fn cli() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        eprintln!("No input argument provided. Use: 0 to 1");
+        eprintln!("No input argument provided. Use: 0 to 5");
         return;
     }
 
     match args[1].as_str() {
         "0" => {
-            println!("Running default configuration: configure_default");
+            println!("Default configuration");
             configure_default();
         }
         "1" => {
-            println!("Running test 1: list_sensors");
+            println!("list sensors");
             list_sensors();
         }
+        "2" => {
+            println!("Turn on points");
+            turn_on_points();
+        }
+        "3" => {
+            println!("Turn off points");
+            turn_off_points();
+        }
+        "4" => {
+            println!("Turn on imx");
+            turn_on_imx();
+        }
+        "5" => {
+            println!("Turn off imx");
+            turn_off_imx();
+        }
         _ => {
-            eprintln!("Invalid argument. Expected: 0 to 1");
+            eprintln!("Invalid argument. Expected: 0 to 5");
         }
     }
 }
