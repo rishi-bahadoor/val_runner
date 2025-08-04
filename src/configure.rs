@@ -2,7 +2,7 @@ use crate::commands::run_ccc_command_set_forced;
 use std::thread::sleep;
 use std::time::Duration;
 
-pub fn configure_default() {
+pub fn turn_off_imx() {
     run_ccc_command_set_forced("point_enable=0, drive_big_mirror=0");
 
     // Delay for 500 milliseconds
@@ -12,6 +12,26 @@ pub fn configure_default() {
 
     // Delay for 500 milliseconds
     sleep(Duration::from_millis(500));
+}
+
+pub fn turn_on_imx() {
+    run_ccc_command_set_forced("imx4_x9_devsts_active=1");
+
+    // Delay for 500 milliseconds
+    sleep(Duration::from_millis(500));
+}
+
+pub fn turn_on_points() {
+    turn_on_imx();
+    run_ccc_command_set_forced("point_enable=1, drive_big_mirror=1");
+}
+
+pub fn turn_off_points() {
+    run_ccc_command_set_forced("point_enable=0, drive_big_mirror=0");
+}
+
+pub fn configure_default() {
+    turn_off_imx();
 
     // Set default configurations here...
     run_ccc_command_set_forced(
@@ -24,10 +44,7 @@ pub fn configure_default() {
         horiz_firing_period_roi=2958,roi_enable=0",
     );
 
-    run_ccc_command_set_forced("imx4_x9_devsts_active=1");
+    turn_on_imx();
 
-    // Delay for 500 milliseconds
-    sleep(Duration::from_millis(500));
-
-    println!("Power Cycle the sensor then turn on MST and POINT ENABLE\n\n")
+    println!("Power Cycle the sensor then dp turn on points\n\n")
 }
