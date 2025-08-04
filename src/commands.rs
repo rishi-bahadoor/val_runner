@@ -1,7 +1,5 @@
 use std::process::Command;
 
-// test
-
 const PATH_TO_CCC_EXE: &str = r"C:\Users\rishi\Downloads\validation_runner\runner";
 const PATH_TO_TOML: &str = r"C:\Users\rishi\Downloads\validation_runner\runner\ultra_config.toml";
 
@@ -35,11 +33,11 @@ pub fn run_ccc_command_with_toml_and_forced(args: &str) {
 }
 
 pub fn run_ccc_command_set_forced(args: &str) {
-    let full_args = format!("set {} -d {} --force", args, PATH_TO_TOML);
-    run_ccc_command(&full_args);
+    let full_args = format!("set {}", args);
+    run_ccc_command_with_toml_and_forced(&full_args);
 }
 
 pub fn run_ccc_command_get(args: &str) {
-    let full_args = format!("get {} -d {}", args, PATH_TO_TOML);
-    run_ccc_command(&full_args);
+    let full_args = format!("get {}", args);
+    run_ccc_command_with_toml(&full_args);
 }
