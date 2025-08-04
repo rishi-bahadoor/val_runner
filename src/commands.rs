@@ -17,65 +17,27 @@ pub fn run_ccc_command(args: &str) {
     } else {
         let stderr = String::from_utf8_lossy(&output.stderr);
         eprintln!("Error:\n{}", stderr);
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        println!("Output:\n{}", stdout);
     }
 }
 
 pub fn run_ccc_command_with_toml(args: &str) {
-    let powershell_script = format!(
-        "cd '{}'; ./ccc.exe {} -d {}",
-        PATH_TO_CCC_EXE, args, PATH_TO_TOML
-    );
-
-    let output = Command::new("powershell")
-        .args(["-Command", &powershell_script])
-        .output()
-        .expect("Failed to execute PowerShell command");
-
-    if output.status.success() {
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        println!("Output:\n{}", stdout);
-    } else {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        eprintln!("Error:\n{}", stderr);
-    }
+    let full_args = format!("{} -d {}", args, PATH_TO_TOML);
+    run_ccc_command(&full_args);
 }
 
 pub fn run_ccc_command_with_toml_and_forced(args: &str) {
-    let powershell_script = format!(
-        "cd '{}'; ./ccc.exe {} -d {} --force",
-        PATH_TO_CCC_EXE, args, PATH_TO_TOML
-    );
-
-    let output = Command::new("powershell")
-        .args(["-Command", &powershell_script])
-        .output()
-        .expect("Failed to execute PowerShell command");
-
-    if output.status.success() {
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        println!("Output:\n{}", stdout);
-    } else {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        eprintln!("Error:\n{}", stderr);
-    }
+    let full_args = format!("{} -d {} --force", args, PATH_TO_TOML);
+    run_ccc_command(&full_args);
 }
 
 pub fn run_ccc_command_set_forced(args: &str) {
-    let powershell_script = format!(
-        "cd '{}'; ./ccc.exe set {} -d {} --force",
-        PATH_TO_CCC_EXE, args, PATH_TO_TOML
-    );
+    let full_args = format!("set {} -d {} --force", args, PATH_TO_TOML);
+    run_ccc_command(&full_args);
+}
 
-    let output = Command::new("powershell")
-        .args(["-Command", &powershell_script])
-        .output()
-        .expect("Failed to execute PowerShell command");
-
-    if output.status.success() {
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        println!("Output:\n{}", stdout);
-    } else {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        eprintln!("Error:\n{}", stderr);
-    }
+pub fn run_ccc_command_get(args: &str) {
+    let full_args = format!("get {} -d {}", args, PATH_TO_TOML);
+    run_ccc_command(&full_args);
 }
