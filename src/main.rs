@@ -46,10 +46,16 @@ fn cli() {
             println!("Get all");
             run_ccc_command_get_all();
         }
+        "7" => {
+            turn_on_probing_ffwd();
+        }
+        "8" => {
+            turn_off_probing_ffwd();
+        }
         "1.1" => {
             println!("1.1");
             test_1_1();
-        },
+        }
         "1.2" => {
             println!("1.2");
             test_1_2();
@@ -86,12 +92,9 @@ fn cli() {
             println!("3.1.2");
             test_3_1_2();
         }
-       "3.1.3" => {
+        "3.1.3" => {
             println!("3.1.3");
             test_3_1_3();
-        }
-        "blooming_off"=>{
-            turn_off_probing_ffwd();
         }
         "4.1" => {
             println!("4.1");
