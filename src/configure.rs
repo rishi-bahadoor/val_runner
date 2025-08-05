@@ -1,7 +1,6 @@
 use crate::commands::run_ccc_command_set_forced;
 use crate::misc::*;
 use core::str;
-use std::io::{self, Write};
 
 pub fn turn_off_imx() {
     run_ccc_command_set_forced("point_enable=0, drive_big_mirror=0");
@@ -35,6 +34,26 @@ pub fn set_pixel_format(args: &str) {
     run_ccc_command_set_forced(&full_args);
 }
 
+pub fn set_mst_freq(hz: f64) {
+    let full_args = format!("mst_cycle_duration={}", hertz_to_cycle_duration(hz));
+    run_ccc_command_set_forced(&full_args);
+}
+
+pub fn turn_on_probing_ffwd() {
+    let full_args = format!("probing_ffwd_enabled=1");
+    run_ccc_command_set_forced(&full_args);
+}
+
+pub fn turn_off_probing_ffwd() {
+    let full_args = format!("probing_ffwd_enabled=0");
+    run_ccc_command_set_forced(&full_args);
+}
+
+pub fn set_src_ip(args: &str) {
+    let full_args = format!("src_ip={}", args);
+    run_ccc_command_set_forced(&full_args);
+}
+
 pub fn configure_default() {
     turn_off_imx();
 
@@ -52,10 +71,7 @@ pub fn configure_default() {
     turn_on_imx();
 
     println!("Power cycle the sensor");
-    println!("Press Enter to continue after the power cycle...");
-    io::stdout().flush().unwrap();
-    let mut buffer = String::new();
-    io::stdin().read_line(&mut buffer).unwrap();
+    wait_for_enter();
 
     println!("Sensor is powering up, please wait...");
     timer_countdown(10);
