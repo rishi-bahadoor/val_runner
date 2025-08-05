@@ -1,4 +1,6 @@
 use crate::commands::run_ccc_command_set_forced;
+use core::str;
+use std::io::{self, Write};
 use std::thread::sleep;
 use std::time::Duration;
 
@@ -22,12 +24,16 @@ pub fn turn_on_imx() {
 }
 
 pub fn turn_on_points() {
-    turn_on_imx();
     run_ccc_command_set_forced("point_enable=1, drive_big_mirror=1");
 }
 
 pub fn turn_off_points() {
     run_ccc_command_set_forced("point_enable=0, drive_big_mirror=0");
+}
+
+pub fn set_pixel_format(args: &str) {
+    let full_args = format!("pixel_format={}", args);
+    run_ccc_command_set_forced(&full_args);
 }
 
 pub fn configure_default() {
@@ -46,5 +52,9 @@ pub fn configure_default() {
 
     turn_on_imx();
 
-    println!("Power Cycle the sensor then dp turn on points\n\n")
+    println!("Power cycle the sensor");
+    println!("Press Enter to continue after the power cycle...");
+    io::stdout().flush().unwrap();
+    let mut buffer = String::new();
+    io::stdin().read_line(&mut buffer).unwrap();
 }
