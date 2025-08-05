@@ -17,6 +17,7 @@ fn test_point_display(args: &str) {
 }
 
 fn test_mst_freq(args: f64) {
+    set_pixel_format("0");
     turn_on_points();
     set_mst_freq(args);
     println!("Observe the MST frequency change to {}Hz.", args);

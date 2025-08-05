@@ -54,7 +54,7 @@ pub fn run_ccc_command_get_all() {
 }
 
 pub fn run_ccc_update_firmware_with_cepbin(args: &str) {
-    let full_args = format!("update-firmware {} {}", PATH_TO_CEPBIN, args);
+    let full_args = format!("update-firmware {} {} --force", PATH_TO_CEPBIN, args);
     run_ccc_command(&full_args);
 }
 
