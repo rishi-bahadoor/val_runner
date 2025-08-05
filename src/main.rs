@@ -7,7 +7,7 @@ fn cli() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        eprintln!("No input argument provided. Use: 0 to 5");
+        eprintln!("No input argument provided.");
         return;
     }
 
@@ -36,8 +36,20 @@ fn cli() {
             println!("Turn off imx");
             turn_off_imx();
         }
+        "1.1" => {
+            println!("1.1");
+            test_1_1();
+        }
+        "1.2" => {
+            println!("1.2");
+            test_1_2();
+        }
+        "1.3" => {
+            println!("1.3");
+            test_1_3();
+        }
         _ => {
-            eprintln!("Invalid argument. Expected: 0 to 5");
+            eprintln!("Invalid argument.");
         }
     }
 }
