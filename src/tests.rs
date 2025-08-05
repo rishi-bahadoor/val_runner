@@ -31,36 +31,36 @@ pub fn test_1_3() {
 }
 
 pub fn test_2_1(){
-    set_mst_freq("200000");
+    set_mst_freq(10.0);
     println!("MST at 10Hz");
 }
 
 pub fn test_2_2(){
-    set_mst_freq("100000");
+    set_mst_freq(20.0);
     println!("MST at 20Hz");
 }
 
 pub fn test_2_3(){
-    set_mst_freq("50000");
+    set_mst_freq(40.0);
     println!("MST at 40Hz");
 }
 
 pub fn test_2_4(){
-    set_mst_freq("200000");
+    set_mst_freq(10.0);
     println!("MST at 10Hz");
     timer_countdown(10);
-    set_mst_freq("181818");
+    set_mst_freq(11.0);
     println!("MST at 11Hz");
     timer_countdown(10);
-    set_mst_freq("166666");
+    set_mst_freq(12.0);
     println!("MST at 12Hz");
 }
 
 pub fn test_2_5(){
-    set_mst_freq("200000");
+    set_mst_freq(10.0);
     println!("MST at 10Hz");
     timer_countdown(10);
-    set_mst_freq("100000");
+    set_mst_freq(20.0);
     println!("MST at 20Hz");
     timer_countdown(10);
 }

@@ -35,8 +35,8 @@ pub fn set_pixel_format(args: &str) {
     run_ccc_command_set_forced(&full_args);
 }
 
-pub fn set_mst_freq(args: &str) {
-    let full_args = format!("mst_cycle_duration={}", args);
+pub fn set_mst_freq(hz: f64) {
+    let full_args = format!("mst_cycle_duration={}", hertz_to_cycle_duration(hz));
     run_ccc_command_set_forced(&full_args);
 }
 

@@ -17,3 +17,18 @@ pub fn timer_countdown(seconds: u32) {
 pub fn timer_sleep_ms(seconds: u32) {
     sleep(Duration::from_millis(seconds as u64));
 }
+
+/// # Examples
+/// ```
+/// assert_eq!(runner::hertz_to_cycle_duration(10.0), 200000);
+/// assert_eq!(runner::hertz_to_cycle_duration(11.0), 181818);
+/// assert_eq!(runner::hertz_to_cycle_duration(20.0), 100000);
+/// assert_eq!(runner::hertz_to_cycle_duration(50.0), 40000);
+/// ```
+pub fn hertz_to_cycle_duration(hz: f64) -> u32 {
+    if hz == 0.0 {
+        0
+    } else {
+        2_000_000 / hz as u32 // Convert Hz to mst_cycle_duration units
+    }
+}
