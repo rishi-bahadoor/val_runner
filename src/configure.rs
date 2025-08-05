@@ -1,7 +1,6 @@
 use crate::commands::run_ccc_command_set_forced;
 use crate::misc::*;
 use core::str;
-use std::io::{self, Write};
 
 pub fn turn_off_imx() {
     run_ccc_command_set_forced("point_enable=0, drive_big_mirror=0");
@@ -72,10 +71,7 @@ pub fn configure_default() {
     turn_on_imx();
 
     println!("Power cycle the sensor");
-    println!("Press Enter to continue after the power cycle...");
-    io::stdout().flush().unwrap();
-    let mut buffer = String::new();
-    io::stdin().read_line(&mut buffer).unwrap();
+    wait_for_enter();
 
     println!("Sensor is powering up, please wait...");
     timer_countdown(10);

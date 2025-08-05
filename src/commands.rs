@@ -1,4 +1,7 @@
 use std::process::{Command, Stdio};
+use std::sync::atomic::{AtomicBool, Ordering::Relaxed};
+
+pub static VERBOSE: AtomicBool = AtomicBool::new(false);
 
 const PATH_TO_CCC_EXE: &str = r"..\val_runner";
 const PATH_TO_TOML: &str = r"..\val_runner\ultra_config.toml";
@@ -6,6 +9,10 @@ const PATH_TO_CEPBIN: &str = r"..\val_runner\ultra.cepbin";
 
 pub fn run_ccc_command(args: &str) {
     let powershell_script = format!("cd '{}'; ./ccc.exe {}", PATH_TO_CCC_EXE, args);
+
+    if VERBOSE.load(Relaxed) {
+        println!("Running command: {}", powershell_script);
+    }
 
     let mut child = Command::new("powershell")
         .args(["-Command", &powershell_script])

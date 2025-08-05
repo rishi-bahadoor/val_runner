@@ -1,14 +1,20 @@
 use runner::*;
 use std::env;
+use std::sync::atomic::Ordering::Relaxed;
 
 fn cli() {
     println!("Validation Runner is ready to execute commands.");
 
     let args: Vec<String> = env::args().collect();
 
-    if args.len() < 2 {
+    if args.len() < 3 {
         eprintln!("No input argument provided.");
         return;
+    }
+
+    if args.len() == 3 && (args[2] == "verbose" || args[2] == "-v" || args[2] == "--verbose") {
+        println!("Running in verbose mode.");
+        VERBOSE.store(true, Relaxed);
     }
 
     match args[1].as_str() {
@@ -43,7 +49,7 @@ fn cli() {
         "1.1" => {
             println!("1.1");
             test_1_1();
-        }
+        },
         "1.2" => {
             println!("1.2");
             test_1_2();

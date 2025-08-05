@@ -33,27 +33,33 @@ pub fn test_1_3() {
 pub fn test_2_1(){
     set_mst_freq(10.0);
     println!("MST at 10Hz");
+    wait_for_enter();
 }
 
 pub fn test_2_2(){
     set_mst_freq(20.0);
     println!("MST at 20Hz");
+    wait_for_enter();
 }
 
 pub fn test_2_3(){
     set_mst_freq(40.0);
     println!("MST at 40Hz");
+    wait_for_enter();
 }
 
 pub fn test_2_4(){
     set_mst_freq(10.0);
     println!("MST at 10Hz");
+    wait_for_enter();
     timer_countdown(10);
     set_mst_freq(11.0);
     println!("MST at 11Hz");
+    wait_for_enter();
     timer_countdown(10);
     set_mst_freq(12.0);
     println!("MST at 12Hz");
+    wait_for_enter();
 }
 
 pub fn test_2_5(){
@@ -69,18 +75,21 @@ pub fn test_3_1_1(){
     set_pixel_format("0");
     turn_on_probing_ffwd();
     println!("probing_ffwd_enabled for STDV");
+    timer_countdown(120);
 }
 
 pub fn test_3_1_2(){
     set_pixel_format("2");
     turn_on_probing_ffwd();
     println!("probing_ffwd_enabled for HRAD");
+    timer_countdown(120);
 }
 
 pub fn test_3_1_3(){
     set_pixel_format("3");
     turn_on_probing_ffwd();
     println!("probing_ffwd_enabled for HLZ4");
+    timer_countdown(120);
 }
 
 pub fn test_4_1() {
