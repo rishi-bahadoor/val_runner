@@ -35,6 +35,26 @@ pub fn set_pixel_format(args: &str) {
     run_ccc_command_set_forced(&full_args);
 }
 
+pub fn set_mst_freq(args: &str) {
+    let full_args = format!("mst_cycle_duration={}", args);
+    run_ccc_command_set_forced(&full_args);
+}
+
+pub fn turn_on_probing_ffwd() {
+    let full_args = format!("probing_ffwd_enabled=1");
+    run_ccc_command_set_forced(&full_args);
+}
+
+pub fn turn_off_probing_ffwd() {
+    let full_args = format!("probing_ffwd_enabled=0");
+    run_ccc_command_set_forced(&full_args);
+}
+
+pub fn set_src_ip(args: &str) {
+    let full_args = format!("src_ip={}", args);
+    run_ccc_command_set_forced(&full_args);
+}
+
 pub fn configure_default() {
     turn_off_imx();
 
