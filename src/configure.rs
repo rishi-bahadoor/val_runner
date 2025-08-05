@@ -1,26 +1,25 @@
 use crate::commands::run_ccc_command_set_forced;
+use crate::misc::*;
 use core::str;
 use std::io::{self, Write};
-use std::thread::sleep;
-use std::time::Duration;
 
 pub fn turn_off_imx() {
     run_ccc_command_set_forced("point_enable=0, drive_big_mirror=0");
 
     // Delay for 500 milliseconds
-    sleep(Duration::from_millis(500));
+    timer_sleep_ms(500);
 
     run_ccc_command_set_forced("imx4_x9_devsts_active=0");
 
     // Delay for 500 milliseconds
-    sleep(Duration::from_millis(500));
+    timer_sleep_ms(500);
 }
 
 pub fn turn_on_imx() {
     run_ccc_command_set_forced("imx4_x9_devsts_active=1");
 
     // Delay for 500 milliseconds
-    sleep(Duration::from_millis(500));
+    timer_sleep_ms(500);
 }
 
 pub fn turn_on_points() {
@@ -57,4 +56,7 @@ pub fn configure_default() {
     io::stdout().flush().unwrap();
     let mut buffer = String::new();
     io::stdin().read_line(&mut buffer).unwrap();
+
+    println!("Sensor is powering up, please wait...");
+    timer_countdown(10);
 }

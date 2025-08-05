@@ -15,3 +15,9 @@ pub use tests::*;
 mod configure;
 
 pub use configure::*;
+
+// Miscellaneous utilities
+//=============================================================================
+mod misc;
+
+pub use misc::*;
