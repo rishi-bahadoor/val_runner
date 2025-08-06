@@ -52,6 +52,18 @@ fn cli() {
         "8" => {
             turn_off_probing_ffwd();
         }
+        "stdv" | "STDV" => {
+            println!("Setting pixel format to STDV");
+            set_pixel_format("0");
+        }
+        "hrad" | "HRAD" => {
+            println!("Setting pixel format to HRAD");
+            set_pixel_format("2");
+        }
+        "hlz4" | "HLZ4" => {
+            println!("Setting pixel format to HLZ4");
+            set_pixel_format("3");
+        }
         "1.1" => {
             println!("1.1");
             test_1_1();
