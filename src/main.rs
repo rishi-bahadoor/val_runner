@@ -168,6 +168,10 @@ fn cli() {
             println!("6.3.2");
             test_6_3_2();
         }
+        "get_latest_nightly" => {
+            println!("Getting latest cepbin and toml files from nightly path");
+            get_latest_cepbin_and_toml();
+        }
         _ => {
             eprintln!("Invalid argument.");
         }
