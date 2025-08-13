@@ -62,10 +62,10 @@ pub fn configure_default() {
         "nr_slot=960,horiz_fov_left=-1092270,horiz_fov_right=1092270,
         horiz_firing_period=4555,spad_sw_trigger_period=350000,
         spad_trg_enc_dir_invert=0,ambient_data_pkts_enabled=0,
-        dynamic_hv_kp=16,dynamic_hv_kc=2100,mst_drive_period=6250,
-        mst_half_period=10000000,mst_cycle_duration=200000,mst_phase_offset=0,
+        dynamic_hv_kp=16,dynamic_hv_kc=2100,
+        mst_cycle_duration=200000,mst_phase_offset=0,
         horiz_fov_left_roi=-349525,horiz_fov_right_roi=349525,
-        horiz_firing_period_roi=2958,roi_enable=0",
+        horiz_firing_period_roi=2958,roi_enable=0,src_ip=192.168.32.32,pixel_format=0",
     );
 
     turn_on_imx();
