@@ -1,4 +1,13 @@
 /target
+*.exe
+/ultra_config.toml
+*.cepbin
+/default_config.toml
 ccc.exe
 ultra_config.toml
-ultra.cepbin
+before.txt
+ccc.exe
+configs.txt
+defauilt_config.txt
+ccc.exe
+ultra_config.toml

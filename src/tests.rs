@@ -6,13 +6,13 @@ use core::str;
 
 // Core functions to run tests
 // ==========================================================================
-fn test_point_display(args: &str) {
+fn test_point_display(args: &str, duration: u32) {
     configure_default();
     set_pixel_format(args);
     turn_on_points();
 
     println!("Observe the point cloud display.");
-    timer_countdown(120);
+    timer_countdown(duration);
     turn_off_points();
 }
 
@@ -37,6 +37,15 @@ fn test_probing_ffwd(args: &str) {
     }
     wait_for_enter();
     turn_off_probing_ffwd();
+}
+
+fn test_1_5_subtask(args: &str) {
+    set_pixel_format(args);
+    run_ccc_command_set_forced("horiz_fov_left=-2185698,horiz_fov_right=2185698,horiz_firing_period=5916,horiz_fov_left_roi=-699050,horiz_fov_right_roi=699050,horiz_firing_period_roi=2548,nr_slot=2103,roi_enable=1,mst_cycle_duration=200000");
+    turn_on_points();
+    println!("Observe the point cloud display with modified FOV and firing period.");
+    wait_for_enter();
+    turn_off_points();
 }
 
 fn test_ip_changes(src_ip: &str, pixel_format: &str, point_on: bool) {
@@ -66,15 +75,35 @@ pub fn list_sensors() {
 }
 
 pub fn test_1_1() {
-    test_point_display("0");
+    test_point_display("0", 120);
 }
 
 pub fn test_1_2() {
-    test_point_display("2");
+    test_point_display("2", 120);
 }
 
 pub fn test_1_3() {
-    test_point_display("3");
+    test_point_display("3", 120);
+}
+
+pub fn test_1_5_1() {
+    test_1_5_subtask("0");
+}
+
+pub fn test_1_5_2() {
+    test_1_5_subtask("3");
+}
+
+pub fn test_1_6_1() {
+    test_point_display("0", 900);
+}
+
+pub fn test_1_6_2() {
+    test_point_display("2", 900);
+}
+
+pub fn test_1_6_3() {
+    test_point_display("3", 900);
 }
 
 pub fn test_2_1() {
@@ -135,21 +164,21 @@ pub fn test_6_1_1() {
 }
 
 pub fn test_6_1_2() {
-    test_ip_changes("192.168.32.44", "0", false);
+    test_ip_changes("192.168.32.45", "0", false);
 }
 
 pub fn test_6_2_1() {
-    test_ip_changes("192.168.32.44", "2", true);
+    test_ip_changes("192.168.32.46", "2", true);
 }
 
 pub fn test_6_2_2() {
-    test_ip_changes("192.168.32.44", "2", false);
+    test_ip_changes("192.168.32.47", "2", false);
 }
 
 pub fn test_6_3_1() {
-    test_ip_changes("192.168.32.44", "3", true);
+    test_ip_changes("192.168.32.48", "3", true);
 }
 
 pub fn test_6_3_2() {
-    test_ip_changes("192.168.32.44", "3", false);
+    test_ip_changes("192.168.32.49", "3", false);
 }
