@@ -170,7 +170,19 @@ fn cli() {
         }
         "get_latest_nightly" => {
             println!("Getting latest cepbin and toml files from nightly path");
-            get_latest_cepbin_and_toml();
+            let mut force = false;
+            if args.len() == 3 && (args[2] == "force" || args[2] == "-f" || args[2] == "--force") {
+                force = true;
+            }
+            get_latest_cepbin_and_toml(force);
+        }
+        "timestamp_excel_sheet" => {
+            println!("Timestamping excel sheet");
+            let mut version_number = 0;
+            if args.len() == 3 && args[2].parse::<u32>().is_ok() {
+                version_number = args[2].parse().unwrap();
+            }
+            timestamp_excel_sheet(version_number);
         }
         _ => {
             eprintln!("Invalid argument.");

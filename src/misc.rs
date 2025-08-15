@@ -7,10 +7,16 @@ use std::io::{self, Write};
 
 pub fn timer_countdown(seconds: u32) {
     let timer_1 = seconds;
-    println!("Timer: {} seconds", timer_1);
+    let mut minutes= timer_1 / 60;
+    println!("Timer: {} seconds \t| {} minutes", timer_1, minutes);
     for n in 0..(timer_1 + 1) {
         sleep(Duration::from_millis(1000));
-        print!("\r{:3} ", timer_1 - n); // Use padding for consistent width
+        minutes = (timer_1 - n) / 60;
+        if minutes == 0 {
+            print!("\r{:3} seconds", timer_1 - n);
+        } else {
+            print!("\r{:3} seconds \t\t| {:2} minutes and {:2} seconds", timer_1 - n, minutes, (timer_1 - n) % 60); // Use padding for consistent width
+        }
         io::stdout().flush().unwrap(); // Ensure output is shown immediately
     }
     println!(); // Move to a new line after the loop finishes
@@ -40,10 +46,18 @@ pub fn hertz_to_cycle_duration(hz: f64) -> u32 {
     2_000_000 / hz as u32 // Convert Hz to mst_cycle_duration units
 }
 
-pub fn get_latest_cepbin_and_toml() {
+pub fn get_latest_cepbin_and_toml(force: bool) {
     const NIGHTLY_PATH: &str = r"\\10.11.0.13\jenkins\ufb\ultra\nightly";
 
-    if !Path::new(NIGHTLY_PATH).exists() {
+    let get_patch_number = |name: &str| {
+        name.trim()
+            .split('_')
+            .nth(1)
+            .and_then(|s| s.split('.').last())
+            .and_then(|s| s.parse::<u32>().ok())
+    };
+
+    if !force && !Path::new(NIGHTLY_PATH).exists() {
         eprintln!("Nightly path does not exist: {}", NIGHTLY_PATH);
         eprintln!("Ensure you are connected to the VPN");
         return;
@@ -81,11 +95,8 @@ pub fn get_latest_cepbin_and_toml() {
         .take_while(|entry| {
             let name = entry.file_name().to_string_lossy();
             println!("Checking directory: {}", name);
-            let release_number = name.split("#").nth(1);
-            if release_number.is_none() {
-                return false;
-            }
-            let release_number = release_number.unwrap().parse().unwrap_or(0);
+            let release_number = get_patch_number(&name)
+                .unwrap_or(0);
             release_number >= latest_release
         })
         .collect();
@@ -102,26 +113,20 @@ pub fn get_latest_cepbin_and_toml() {
         .iter()
         .max_by_key(|entry| {
             let name = entry.file_name().to_string_lossy();
-            let release_number = name.split("#").nth(1).unwrap_or("0");
-            release_number.parse::<u32>().unwrap_or(0)
+            get_patch_number(&name)
+                .unwrap_or(0);
         })
         .expect("No valid directories found");
 
-    let latest_nightly_version = latest_nightly_path
-        .file_name()
-        .to_string_lossy()
-        .split("#")
-        .nth(1)
-        .unwrap_or("unknown")
-        .parse::<u32>()
-        .unwrap_or(0);
+    let latest_nightly_version = get_patch_number(&latest_nightly_path.file_name().to_string_lossy())
+        .unwrap_or(u32::MAX);
 
-    if latest_nightly_version == 0 {
+    if latest_nightly_version == u32::MAX {
         eprintln!("No valid nightly version found in the latest directory.");
         return;
     }
 
-    if latest_nightly_version == latest_release {
+    if !force && latest_nightly_version == latest_release {
         println!(
             "Latest nightly version {} is the same as the latest release version {}.",
             latest_nightly_version, latest_release
@@ -155,5 +160,34 @@ pub fn get_latest_cepbin_and_toml() {
     fs::write("./latest_release", latest_nightly_version.to_string())
         .expect("Failed to write latest release number to latest_release file");
 
-    println!("Updated latest_release file with version {}", latest_nightly_version);
+    println!("Updated latest_release file with {}", latest_nightly_path.file_name().display().to_string());
+}
+
+pub fn timestamp_excel_sheet(version_number: u32) {
+    const VTG_PATH : &str = r"C:\Users\blualpha\Downloads\validation_test_generator_release_folder_v1.1_14_08_2025";
+    const EXCEL_FILE_NAME: &str = "validation_test_report.xlsx";
+
+    let excel_file_path = Path::new(VTG_PATH).join(EXCEL_FILE_NAME);
+    if !excel_file_path.exists() {
+        eprintln!("Excel file does not exist at: {}", excel_file_path.display());
+        return;
+    }
+
+
+    let version = fs::read_to_string(Path::new("./nightly_latest/version.txt"))
+        .expect("Failed to read latest_release file")
+        .trim()
+        .to_string();
+
+    let mut timestamped_sheet = format!("{}.xlsx", version);
+    if version_number > 0 {
+        timestamped_sheet = format!("{}_v{}.xlsx", version, version_number);
+    }
+
+    let timestamp_path = Path::new(VTG_PATH).join(&timestamped_sheet);
+
+    println!("Timestamped file will be saved as: {}", timestamp_path.display());
+
+    fs::copy(excel_file_path, &timestamp_path)
+        .expect("Failed to copy Excel file");
 }
