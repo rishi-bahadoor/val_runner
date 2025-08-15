@@ -162,32 +162,3 @@ pub fn get_latest_cepbin_and_toml(force: bool) {
 
     println!("Updated latest_release file with {}", latest_nightly_path.file_name().display().to_string());
 }
-
-pub fn timestamp_excel_sheet(version_number: u32) {
-    const VTG_PATH : &str = r"C:\Users\blualpha\Downloads\validation_test_generator_release_folder_v1.1_14_08_2025";
-    const EXCEL_FILE_NAME: &str = "validation_test_report.xlsx";
-
-    let excel_file_path = Path::new(VTG_PATH).join(EXCEL_FILE_NAME);
-    if !excel_file_path.exists() {
-        eprintln!("Excel file does not exist at: {}", excel_file_path.display());
-        return;
-    }
-
-
-    let version = fs::read_to_string(Path::new("./nightly_latest/version.txt"))
-        .expect("Failed to read latest_release file")
-        .trim()
-        .to_string();
-
-    let mut timestamped_sheet = format!("{}.xlsx", version);
-    if version_number > 0 {
-        timestamped_sheet = format!("{}_v{}.xlsx", version, version_number);
-    }
-
-    let timestamp_path = Path::new(VTG_PATH).join(&timestamped_sheet);
-
-    println!("Timestamped file will be saved as: {}", timestamp_path.display());
-
-    fs::copy(excel_file_path, &timestamp_path)
-        .expect("Failed to copy Excel file");
-}
